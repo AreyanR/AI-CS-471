@@ -129,12 +129,14 @@ def breadthFirstSearch(problem: SearchProblem):
     "*** YOUR CODE HERE ***"
     queue = util.Queue()
     
-    # Push the start state onto the queue along with an empty path
+    
+    # push (enquque) the state onto the queue with an empry path
     queue.push((problem.getStartState(), []))
     
-    # Use a set to track explored states
+    # use a set to track explored states
     explored = set()
     
+    #if the stack is not empty
     while not queue.isEmpty():
         # Pop the next node (FIFO order for BFS)
         state, path = queue.pop()
@@ -143,14 +145,16 @@ def breadthFirstSearch(problem: SearchProblem):
         if problem.isGoalState(state):
             return path
         
-        # Mark the current state as explored
+        # mark the current state as explored
         if state not in explored:
             explored.add(state)
             
-            # Expand the node by exploring its successors
+
+          # expands each node by generating its successors, 
+          # filters out nodes already explored or in the queue, 
+          # and pushes the valid successors onto the queue with an updated path
             for successor, action, cost in problem.getSuccessors(state):
                 if successor not in explored and not any(successor == s for s, _ in queue.list):
-                    # Push successor onto the queue with updated path
                     queue.push((successor, path + [action]))
                     
     return []
@@ -161,19 +165,19 @@ def uniformCostSearch(problem: SearchProblem):
     "*** YOUR CODE HERE ***"
     priority_queue = util.PriorityQueue()
     
-    # Push the start state with an initial cost of 0
-    # The path list will store the sequence of actions taken to reach this state
+    # push the start state with an initial cost of 0
+    # the path list will store the sequence of actions taken to reach this state
     priority_queue.push((problem.getStartState(), [], 0), 0)  # (state, path, cost), priority = cost
     
-    # Use a dictionary to track the lowest cost at which each state has been explored
+    # use a dictionary to track the lowest cost at which each state has been explored
     explored = {}
 
-    # While there are nodes to explore in the priority queue
+    # while there are nodes to explore in the priority queue
     while not priority_queue.isEmpty():
-        # Pop the node with the lowest cumulative cost
+        # pop the node with the lowest cumulative cost
         state, path, cost = priority_queue.pop()
 
-        # Check if the current state is the goal state; if so, return the path to it
+        # check if the current popped state is the goal state; if so, return the path to it
         if problem.isGoalState(state):
             return path
         
@@ -201,10 +205,46 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
+
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    priority_queue = util.PriorityQueue()
+    
+    # Push the start state with an initial cost of 0
+    start_state = problem.getStartState()
+    priority_queue.push((start_state, [], 0), 0 + heuristic(start_state, problem))  # (state, path, cost), priority = g(n) + h(n)
+    
+    # Use a dictionary to track the lowest cost at which each state has been explored
+    explored = {}
+
+    # While there are nodes to explore in the priority queue
+    while not priority_queue.isEmpty():
+        # Pop the node with the lowest cumulative cost + heuristic
+        state, path, cost = priority_queue.pop()
+
+        # Check if the current state is the goal state; if so, return the path to it
+        if problem.isGoalState(state):
+            return path
+        
+        # If the state hasn't been explored at a lower cost
+        if state not in explored or cost < explored[state]:
+            # Mark the state as explored with this cost
+            explored[state] = cost
+            
+            # Expand the current state by checking each of its successors
+            for successor, action, step_cost in problem.getSuccessors(state):
+                # Calculate the cumulative cost to reach this successor
+                new_cost = cost + step_cost
+                # Calculate f(n) = g(n) + h(n) for the priority
+                priority = new_cost + heuristic(successor, problem)
+                # If the successor hasn't been explored at a lower cost
+                if successor not in explored or new_cost < explored.get(successor, float('inf')):
+                    # Push the successor onto the priority queue with the updated cost + heuristic
+                    priority_queue.push((successor, path + [action], new_cost), priority)
+
+    # If no solution is found, return an empty list
+    return []
 
 
 # Abbreviations
