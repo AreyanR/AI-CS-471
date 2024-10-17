@@ -391,11 +391,11 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    current_position, corners_visited = state
-    corners = problem.corners
-    walls = problem.walls
+    current_position, corners_visited = state # get the current position and the corners visited
+    corners = problem.corners # get the corners
+    walls = problem.walls   # get the walls
 
-    # List of unvisited corners
+    # lst of unvisited corners
     unvisited_corners = [corner for idx, corner in enumerate(corners) if not corners_visited[idx]]
     
     # If all corners are visited, the heuristic value is 0
@@ -406,8 +406,9 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     distances = [util.manhattanDistance(current_position, corner) for corner in unvisited_corners]
 
     # Use the maximum of these distances as the heuristic estimate
-    # Alternatively, you can use the minimum distance and adjust to consider all paths to corners
-    return max(distances)  # Alternatively, try min(distances) for different performance
+    # Alternatively, you can use the minimum distance 
+    #return min(distances)
+    return max(distances) 
 
 
 class AStarCornersAgent(SearchAgent):
@@ -500,15 +501,15 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position, foodGrid = state
+    position, foodGrid = state # a tuple contiant the pacs cords and the food grid (true : food, false: no food)
     "*** YOUR CODE HERE ***"
-    food_list = foodGrid.asList()
+    food_list = foodGrid.asList() # get the food cords into a list of cords
 
     # If there are no more food dots, return a heuristic value of 0
     if not food_list:
         return 0
 
-    # Calculate the Manhattan distance from Pacman's current position to each food dot
+    # calculate the Manhattan distance from Pacman's current position to each food dot
     pacman_to_food_distances = [util.manhattanDistance(position, food) for food in food_list]
 
     # Find the maximum distance between any two food dots
@@ -517,7 +518,7 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
         for j in range(i + 1, len(food_list)):
             max_food_pair_distance = max(max_food_pair_distance, util.manhattanDistance(food_list[i], food_list[j]))
 
-    # Combine both components: Pacman's distance to the nearest food and the farthest food pair distance
+    # cpombine the distance to the nearest food dot and the maximum distance between any two food dots (gives how much travel will likey for visitng all food dots)
     return min(pacman_to_food_distances) + max_food_pair_distance
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -551,7 +552,7 @@ class ClosestDotSearchAgent(SearchAgent):
         "*** YOUR CODE HERE ***"
         problem = AnyFoodSearchProblem(gameState)
 
-        # Use BFS to find a path to the closest dot
+        # use BFS to find a path to the closest dot
         return search.breadthFirstSearch(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -588,9 +589,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        x, y = state
-        # Goal state is when Pacman reaches any position with food
-        return self.food[x][y]
+        x, y = state # holds the cords of the pacmans post
+        return self.food[x][y] # returns true if there is food at the current position
 
 def mazeDistance(point1: Tuple[int, int], point2: Tuple[int, int], gameState: pacman.GameState) -> int:
     """
