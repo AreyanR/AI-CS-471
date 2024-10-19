@@ -87,7 +87,7 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-     # create a stack 
+     #create a stack 
     stack = util.Stack()
      # push the start state and an empty list to the stack 
      # list will keep track o factions taken to reach each state
@@ -163,19 +163,19 @@ def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     #use a priotity queue to store the nodes
-    priority_queue = util.PriorityQueue()
+    priorityQueue = util.PriorityQueue()
     
     # push the start state with an initial cost of 0
     # the path list will store the sequence of actions taken to reach this state
-    priority_queue.push((problem.getStartState(), [], 0), 0)  # (state, path, cost), priority = cost
+    priorityQueue.push((problem.getStartState(), [], 0), 0)  # (state, path, cost), priority = cost
     
     # use a dictionary to track the lowest cost at which each state has been explored
     explored = {}
 
     # while there are nodes to explore in the priority queue
-    while not priority_queue.isEmpty():
+    while not priorityQueue.isEmpty():
         # pop the node with the lowest cumulative cost (becuase we put the cheapest one first)
-        state, path, cost = priority_queue.pop()
+        state, path, cost = priorityQueue.pop()
 
         # check if the current popped state is the goal state; if so, return the path to it
         if problem.isGoalState(state):
@@ -193,7 +193,7 @@ def uniformCostSearch(problem: SearchProblem):
                 # If the successor hasn't been explored at a lower cost
                 if successor not in explored or new_cost < explored.get(successor, float('inf')):
                     # Push the successor onto the priority queue with the updated cost and path
-                    priority_queue.push((successor, path + [action], new_cost), new_cost) # priority queue takes two args
+                    priorityQueue.push((successor, path + [action], new_cost), new_cost) # priority queue takes two args
 
 
                      #explored.get(successor, float('inf')):    This line looks up the prev cost to reach this succ in our dictionary
@@ -240,13 +240,13 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
             # Expand the current state by checking each of its successors (search class for parameters)
             for successor, action, step_cost in problem.getSuccessors(state):
                 # Calculate the cumulative cost to reach this successor
-                new_cost = cost + step_cost
+                newCost = cost + step_cost
                 # Calculate f(n) = g(n) + h(n) for the priority
-                priority = new_cost + heuristic(successor, problem)
+                priority = newCost + heuristic(successor, problem)
                 # If the successor hasn't been explored at a lower cost
-                if successor not in explored or new_cost < explored.get(successor, float('inf')):
+                if successor not in explored or newCost < explored.get(successor, float('inf')):
                     # Push the successor onto the priority queue with the updated cost + heuristic
-                    priority_queue.push((successor, path + [action], new_cost), priority)
+                    priority_queue.push((successor, path + [action], newCost), priority)
 
     # If no solution is found, return an empty list
     return []
