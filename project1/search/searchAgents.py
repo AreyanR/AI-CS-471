@@ -1,3 +1,7 @@
+# CS 471
+# Project 1
+# By Areyan Rastawan and Nikhar Ramlakhan
+
 # searchAgents.py
 # ---------------
 # Licensing Information:  You are free to use or extend these projects for
@@ -10,8 +14,6 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-#Areyan Rastawan and Nikhar Ramlakhan
 
 """
 This file contains all of the agents that can be selected to control Pacman.  To
@@ -345,7 +347,7 @@ class CornersProblem(search.SearchProblem):
             # check if the next pos is not a wall
             if not self.walls[nextx][nexty]:
                 next_position = (nextx, nexty) # if not then that will become the new position
-                # since we cnat change the tuples ian the list 
+                # since we can't change the tuples in the list 
                 # we make a new list with the updated values
                 new_corners_visited = list(corners_visited)
                 # if we are at one of the corners
@@ -355,7 +357,7 @@ class CornersProblem(search.SearchProblem):
                 
                 # add succesor to list
                 successors.append(((next_position, tuple(new_corners_visited)), action, 1))
-                # each sucessorrepresents a possible next state Pacman can move to from the current state
+                # each sucessor represents a possible next state Pacman can move to from the current state
   
 
         self._expanded += 1 # DO NOT CHANGE

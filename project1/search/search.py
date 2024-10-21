@@ -1,3 +1,7 @@
+# CS 471
+# Project 1
+# By Areyan Rastawan and Nikhar Ramlakhan
+
 # search.py
 # ---------
 # Licensing Information:  You are free to use or extend these projects for
@@ -10,8 +14,6 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-#Areyan Rastawan and Nikhar Ramlakhan
 
 """
 In search.py, you will implement generic search algorithms which are called by
