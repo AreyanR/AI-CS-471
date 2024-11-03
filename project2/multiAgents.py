@@ -75,6 +75,23 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
+        # Initialize score with the base score of the successor state
+        score = successorGameState.getScore()
+
+        # Calculate the distance to the closest food pellet
+        foodDistances = [manhattanDistance(newPos, food) for food in newFood.asList()]
+        if foodDistances:
+            score += 10.0 / min(foodDistances)  # Higher score for being closer to food
+
+        # Calculate the penalty for being close to ghosts
+        ghostDistances = [manhattanDistance(newPos, ghost.getPosition()) for ghost in newGhostStates]
+        for dist in ghostDistances:
+            if dist > 0:
+                score -= 5.0 / dist  # Higher penalty for being closer to ghosts
+            if dist <= 1:
+                score -= 1000  # Strong penalty for being too close to a ghost
+
+        return score
         return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState: GameState):
