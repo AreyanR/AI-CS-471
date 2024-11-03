@@ -271,6 +271,43 @@ def betterEvaluationFunction(currentGameState: GameState):
     DESCRIPTION: <write something here so we know what you did>
     """
     "*** YOUR CODE HERE ***"
+    # Get current position, food, capsules, and ghost states
+    pos = currentGameState.getPacmanPosition()
+    food = currentGameState.getFood()
+    capsules = currentGameState.getCapsules()
+    ghostStates = currentGameState.getGhostStates()
+
+    # Initialize score with the current game score
+    score = currentGameState.getScore()
+
+    # Factor 1: Distance to the nearest food
+    foodDistances = [manhattanDistance(pos, foodPos) for foodPos in food.asList()]
+    if foodDistances:
+        score += 10.0 / min(foodDistances)  # Higher score for being closer to food
+
+    # Factor 2: Ghost distances
+    for ghost in ghostStates:
+        ghostPos = ghost.getPosition()
+        dist = manhattanDistance(pos, ghostPos)
+        if ghost.scaredTimer > 0:
+            # If ghost is scared, encourage Pacman to move closer
+            score += 20.0 / (dist + 1)
+        else:
+            # If ghost is active, penalize being close to it
+            if dist > 0:
+                score -= 10.0 / dist
+            if dist <= 1:
+                score -= 1000  # Strong penalty for being too close to an active ghost
+
+    # Factor 3: Capsules
+    capsuleDistances = [manhattanDistance(pos, cap) for cap in capsules]
+    if capsuleDistances:
+        score += 15.0 / min(capsuleDistances)  # Higher score for being closer to capsules
+
+    # Factor 4: Number of food left (encourage fewer food items left)
+    score -= 4 * len(food.asList())
+
+    return score
     util.raiseNotDefined()
 
 # Abbreviation
