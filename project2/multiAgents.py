@@ -92,7 +92,7 @@ class ReflexAgent(Agent):
                 score -= 1000  # Strong penalty for being too close to a ghost
 
         return score
-        return successorGameState.getScore()
+    
 
 def scoreEvaluationFunction(currentGameState: GameState):
     """
@@ -173,7 +173,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
         chosenIndex = random.choice(bestIndices)  # Pick randomly among the best actions
         return legalMoves[chosenIndex]
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
@@ -223,7 +223,7 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
             alpha = max(alpha, bestScore)
 
         return bestAction
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
@@ -261,7 +261,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
         chosenIndex = random.choice(bestIndices)  # Pick randomly among the best actions
         return legalMoves[chosenIndex]
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
 
 def betterEvaluationFunction(currentGameState: GameState):
     """
@@ -308,7 +308,7 @@ def betterEvaluationFunction(currentGameState: GameState):
     score -= 4 * len(food.asList())
 
     return score
-    util.raiseNotDefined()
+    #util.raiseNotDefined()
 
 # Abbreviation
 better = betterEvaluationFunction
