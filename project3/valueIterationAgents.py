@@ -1,3 +1,7 @@
+# CS 471
+# Project 3
+# Nikhar Ramlakhan & Areyan Rastawan
+
 # valueIterationAgents.py
 # -----------------------
 # Licensing Information:  You are free to use or extend these projects for
